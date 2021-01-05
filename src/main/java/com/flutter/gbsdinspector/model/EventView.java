@@ -17,5 +17,4 @@ public class EventView {
     private Long eventTypeId;
     private Long eventSubclassId;
     private Long eventScheduledStartTime;
-    private Boolean eventInPlay;
 }
