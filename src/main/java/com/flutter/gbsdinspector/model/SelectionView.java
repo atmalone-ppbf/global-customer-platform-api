@@ -18,4 +18,5 @@ public class SelectionView {
 
     // selection info
     private Long selectionId;
+    private String selectionName;
 }

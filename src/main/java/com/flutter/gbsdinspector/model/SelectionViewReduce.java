@@ -11,6 +11,7 @@ public class SelectionViewReduce implements ReduceFunction<SelectionView> {
         return SelectionView.builder()
                 .seqNo(current.getSeqNo())
                 .selectionId(Optional.ofNullable(current.getSelectionId()).orElse(previous.getSelectionId()))
+                .selectionName(Optional.ofNullable(current.getSelectionName()).orElse(previous.getSelectionName()))
                 .marketId(Optional.ofNullable(current.getMarketId()).orElse(previous.getMarketId()))
                 .build();
     }

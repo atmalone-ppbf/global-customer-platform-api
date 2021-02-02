@@ -11,8 +11,11 @@ public class EventViewReduce implements ReduceFunction<EventView> {
         return EventView.builder()
                 .seqNo(current.getSeqNo())
                 .eventId(Optional.ofNullable(current.getEventId()).orElse(previous.getEventId()))
+                .eventName(Optional.ofNullable(current.getEventName()).orElse(previous.getEventName()))
                 .eventTypeId(Optional.ofNullable(current.getEventTypeId()).orElse(previous.getEventTypeId()))
+                .eventTypeName(Optional.ofNullable(current.getEventTypeName()).orElse(previous.getEventTypeName()))
                 .eventSubclassId(Optional.ofNullable(current.getEventSubclassId()).orElse(previous.getEventSubclassId()))
+                .eventSubclassName(Optional.ofNullable(current.getEventSubclassName()).orElse(previous.getEventSubclassName()))
                 .eventScheduledStartTime(Optional.ofNullable(current.getEventScheduledStartTime()).orElse(previous.getEventScheduledStartTime()))
                 .build();
     }

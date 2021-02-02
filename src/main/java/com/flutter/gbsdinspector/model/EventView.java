@@ -14,7 +14,13 @@ public class EventView {
 
     // event info
     private Long eventId;
+    private String eventName;
+
     private Long eventTypeId;
+    private String eventTypeName;
+
     private Long eventSubclassId;
+    private String eventSubclassName;
+
     private Long eventScheduledStartTime;
 }

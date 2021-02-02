@@ -17,5 +17,7 @@ public class MarketView {
 
     // market info
     private Long marketId;
+    private String marketName;
     private Long marketTypeId;
+    private String marketTypeName;
 }
