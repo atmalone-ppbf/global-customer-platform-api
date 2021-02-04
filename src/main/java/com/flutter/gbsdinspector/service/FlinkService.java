@@ -4,37 +4,55 @@ import com.flutter.gbsdinspector.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
+import org.apache.flink.api.common.state.MapState;
+import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.common.state.ReducingStateDescriptor;
+import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
 import org.apache.flink.queryablestate.client.QueryableStateClient;
 
 import java.net.UnknownHostException;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 public class FlinkService {
 
     private final QueryableStateClient client;
 
-    public static final ReducingStateDescriptor<EventView> eventViewStateDescriptor =
-            new ReducingStateDescriptor<EventView>(
+    private static final ReducingStateDescriptor<EventView> eventViewStateDescriptor =
+            new ReducingStateDescriptor<>(
                     "eventViewState",
                     new EventViewReduce(),
                     EventView.class
             );
 
-    public static final ReducingStateDescriptor<MarketView> marketViewStateDescriptor =
-            new ReducingStateDescriptor<MarketView>(
+    private static final ReducingStateDescriptor<MarketView> marketViewStateDescriptor =
+            new ReducingStateDescriptor<>(
                     "marketViewState",
                     new MarketViewReduce(),
                     MarketView.class
             );
 
     private static final ReducingStateDescriptor<SelectionView> selectionViewStateDescriptor =
-            new ReducingStateDescriptor<SelectionView>(
+            new ReducingStateDescriptor<>(
                     "selectionViewState",
                     new SelectionViewReduce(),
                     SelectionView.class
             );
+
+    private static final ValueStateDescriptor<EventEvict> eventEvictStateDescriptor =
+            new ValueStateDescriptor<>(
+                    "eventEvictValueState",
+                    EventEvict.class
+            );
+
+    private static final MapStateDescriptor<Long, Long> selectionsToMarketsEvictMapStateDescriptor =
+            new MapStateDescriptor<>(
+                    "selectionsToMarketsEvictMapState",
+                    Long.class,
+                    Long.class);
 
     private FlinkService(String host, Integer port) throws UnknownHostException {
         log.info("Initiating connecting with {}:{}", host, port);
@@ -52,6 +70,18 @@ public class FlinkService {
 
     public SelectionView querySelectionState(String jobId, Long key) throws Exception {
         return client.getKvState(JobID.fromHexString(jobId), "QueryableSelectionsState", key, BasicTypeInfo.LONG_TYPE_INFO, selectionViewStateDescriptor).join().get();
+    }
+
+    public EventEvict queryEventEvictState(String jobId, Long key) throws Exception {
+        return client.getKvState(JobID.fromHexString(jobId), "QueryableEventEvictValueState", key, BasicTypeInfo.LONG_TYPE_INFO, eventEvictStateDescriptor).join().value();
+    }
+
+    public Map<Long, Long> querySelectionsToMarketsEvictState(String jobId, Long key) throws Exception {
+        MapState<Long, Long> mapState = client.getKvState(JobID.fromHexString(jobId), "QueryableSelectionsToMarketsEvictMapState", key, BasicTypeInfo.LONG_TYPE_INFO, selectionsToMarketsEvictMapStateDescriptor).join();
+        return StreamSupport.stream(mapState.entries().spliterator(), false).collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue
+        ));
     }
 
     public void close() {

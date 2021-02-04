@@ -20,4 +20,6 @@ public class MarketView {
     private String marketName;
     private Long marketTypeId;
     private String marketTypeName;
+
+    private MessageType messageType;
 }

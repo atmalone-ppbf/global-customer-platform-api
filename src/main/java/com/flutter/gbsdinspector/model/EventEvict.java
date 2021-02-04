@@ -1,5 +1,6 @@
 package com.flutter.gbsdinspector.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,16 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class SelectionView {
+public class EventEvict {
 
-    private Long seqNo;
+    protected Long seqNo;
 
-    // market info
-    private Long marketId;
+    // event info
+    protected Long eventId;
+    protected Long eventScheduledStartTime;
+    protected Boolean resulted;
 
-    // selection info
-    private Long selectionId;
-    private String selectionName;
+    protected Long evictionTimestamp;
 
-    private MessageType messageType;
 }

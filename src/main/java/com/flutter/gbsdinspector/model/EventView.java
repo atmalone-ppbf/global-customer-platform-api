@@ -23,4 +23,6 @@ public class EventView {
     private String eventSubclassName;
 
     private Long eventScheduledStartTime;
+
+    private MessageType messageType;
 }

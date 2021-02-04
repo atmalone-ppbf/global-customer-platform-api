@@ -2,9 +2,7 @@ package com.flutter.gbsdinspector.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.flutter.gbsdinspector.model.EventView;
-import com.flutter.gbsdinspector.model.MarketView;
-import com.flutter.gbsdinspector.model.SelectionView;
+import com.flutter.gbsdinspector.model.*;
 import com.flutter.gbsdinspector.service.FlinkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -63,6 +63,11 @@ public class FlinkController {
                 model.addAttribute("selectionView", objectWriter.writeValueAsString(selectionView));
                 model.addAttribute("marketView", objectWriter.writeValueAsString(marketView));
                 model.addAttribute("eventView", objectWriter.writeValueAsString(eventView));
+            } else if ("eviction".equalsIgnoreCase(state)) {
+                final ReadableEventEvict readableEventEvict = ReadableEventEvict.fromEventEvict(service.queryEventEvictState(jobId, key));
+                final Map<Long, Long> selectionsToMarketsMap = service.querySelectionsToMarketsEvictState(jobId, key);
+                model.addAttribute("eventEvict", objectWriter.writeValueAsString(readableEventEvict));
+                model.addAttribute("selectionsToMarketsEvictionMap", objectWriter.writeValueAsString(selectionsToMarketsMap));
             }
         } catch (Exception e) {
             log.error("Exception thrown", e);
