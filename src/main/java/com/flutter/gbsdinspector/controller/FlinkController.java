@@ -2,7 +2,10 @@ package com.flutter.gbsdinspector.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.flutter.gbsdinspector.model.*;
+import com.flutter.gbsdinspector.model.EventView;
+import com.flutter.gbsdinspector.model.MarketView;
+import com.flutter.gbsdinspector.model.ReadableEventEvict;
+import com.flutter.gbsdinspector.model.SelectionView;
 import com.flutter.gbsdinspector.service.FlinkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -38,7 +41,7 @@ public class FlinkController {
             @RequestParam(name = "state") String state,
             @RequestParam(name = "key") Long key,
             Model model
-    ) throws Exception {
+    ) {
 
         model.addAttribute("host", host);
         model.addAttribute("port", port);
@@ -49,25 +52,11 @@ public class FlinkController {
         try {
             FlinkService service = FlinkService.init(host, port);
             if ("event".equalsIgnoreCase(state)) {
-                final EventView event = service.queryEventState(jobId, key);
-                model.addAttribute("eventView", objectWriter.writeValueAsString(event));
+                getEventInfo(jobId, key, model, service);
             } else if ("market".equalsIgnoreCase(state)) {
-                final MarketView marketView = service.queryMarketState(jobId, key);
-                final EventView eventView = service.queryEventState(jobId, marketView.getEventId());
-                model.addAttribute("marketView", objectWriter.writeValueAsString(marketView));
-                model.addAttribute("eventView", objectWriter.writeValueAsString(eventView));
+                getMarketInfo(jobId, key, model, service);
             } else if ("selection".equalsIgnoreCase(state)) {
-                final SelectionView selectionView = service.querySelectionState(jobId, key);
-                final MarketView marketView = service.queryMarketState(jobId, selectionView.getMarketId());
-                final EventView eventView = service.queryEventState(jobId, marketView.getEventId());
-                model.addAttribute("selectionView", objectWriter.writeValueAsString(selectionView));
-                model.addAttribute("marketView", objectWriter.writeValueAsString(marketView));
-                model.addAttribute("eventView", objectWriter.writeValueAsString(eventView));
-            } else if ("eviction".equalsIgnoreCase(state)) {
-                final ReadableEventEvict readableEventEvict = ReadableEventEvict.fromEventEvict(service.queryEventEvictState(jobId, key));
-                final Map<Long, Long> selectionsToMarketsMap = service.querySelectionsToMarketsEvictState(jobId, key);
-                model.addAttribute("eventEvict", objectWriter.writeValueAsString(readableEventEvict));
-                model.addAttribute("selectionsToMarketsEvictionMap", objectWriter.writeValueAsString(selectionsToMarketsMap));
+                getSelectionInfo(jobId, key, model, service);
             }
         } catch (Exception e) {
             log.error("Exception thrown", e);
@@ -75,5 +64,31 @@ public class FlinkController {
         }
 
         return "state";
+    }
+
+    private void getSelectionInfo(String jobId, Long key, Model model, FlinkService service) throws Exception {
+        final SelectionView selectionView = service.querySelectionState(jobId, key);
+        model.addAttribute("selectionView", objectWriter.writeValueAsString(selectionView));
+        getMarketInfo(jobId, selectionView.getMarketId(), model, service);
+    }
+
+    private void getMarketInfo(String jobId, Long key, Model model, FlinkService service) throws Exception {
+        final MarketView marketView = service.queryMarketState(jobId, key);
+        model.addAttribute("marketView", objectWriter.writeValueAsString(marketView));
+        getEventInfo(jobId, marketView.getEventId(), model, service);
+    }
+
+    private void getEventInfo(String jobId, Long key, Model model, FlinkService service) throws Exception {
+        final EventView event = service.queryEventState(jobId, key);
+        model.addAttribute("eventView", objectWriter.writeValueAsString(event));
+        final ReadableEventEvict readableEventEvict = ReadableEventEvict.fromEventEvict(service.queryEventEvictState(jobId, key));
+        model.addAttribute("eventEvict", objectWriter.writeValueAsString(readableEventEvict));
+        // this one might be null, since having event created without any markets/selections might be a valid case
+        try {
+            final Map<Long, Long> selectionsToMarketsMap = service.querySelectionsToMarketsEvictState(jobId, key);
+            model.addAttribute("selectionsToMarketsEvictionMap", objectWriter.writeValueAsString(selectionsToMarketsMap));
+        } catch (Exception e) {
+            log.error("Exception thrown", e);
+        }
     }
 }
