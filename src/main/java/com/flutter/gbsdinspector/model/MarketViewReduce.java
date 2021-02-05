@@ -14,7 +14,6 @@ public class MarketViewReduce implements ReduceFunction<MarketView> {
                 .marketId(Optional.ofNullable(current.getMarketId()).orElse(previous.getMarketId()))
                 .marketName(Optional.ofNullable(current.getMarketName()).orElse(previous.getMarketName()))
                 .marketTypeId(Optional.ofNullable(current.getMarketTypeId()).orElse(previous.getMarketTypeId()))
-                .marketTypeName(Optional.ofNullable(current.getMarketTypeName()).orElse(previous.getMarketTypeName()))
                 .build();
     }
 }
