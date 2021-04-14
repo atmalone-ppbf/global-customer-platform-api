@@ -1,6 +1,7 @@
 package com.flutter.gbsdinspector.model;
 
 
+import com.flutter.gbsd.model.internal.MarketView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReadableEventEvict extends EventEvict {
+public class ReadableEventEvict extends MarketView.EventEvict {
 
     private String readableEvictionTimestamp;
     private String readableEventScheduledStartTime;
@@ -23,7 +24,7 @@ public class ReadableEventEvict extends EventEvict {
         this.readableEvictionTimestamp = readableEvictionTimestamp;
     }
 
-    public static ReadableEventEvict fromEventEvict(EventEvict eventEvict) {
+    public static ReadableEventEvict fromEventEvict(MarketView.EventEvict eventEvict) {
         ReadableEventEvict.ReadableEventEvictBuilder readableEventEvictBuilder = ReadableEventEvict.bbuilder()
                 .seqNo(eventEvict.getSeqNo())
                 .eventId(eventEvict.getEventId())

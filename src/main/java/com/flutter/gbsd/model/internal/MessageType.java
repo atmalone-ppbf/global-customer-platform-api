@@ -1,4 +1,4 @@
-package com.flutter.gbsdinspector.model;
+package com.flutter.gbsd.model.internal;
 
 public enum MessageType {
     UPDATE,

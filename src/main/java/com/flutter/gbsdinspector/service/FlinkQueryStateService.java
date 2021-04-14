@@ -1,6 +1,11 @@
 package com.flutter.gbsdinspector.service;
 
-import com.flutter.gbsdinspector.model.*;
+import com.flutter.gbsd.model.internal.EventView;
+import com.flutter.gbsd.model.internal.MarketView;
+import com.flutter.gbsd.model.internal.SelectionView;
+import com.flutter.gbsdinspector.model.EventViewReduce;
+import com.flutter.gbsdinspector.model.MarketViewReduce;
+import com.flutter.gbsdinspector.model.SelectionViewReduce;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
@@ -17,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Slf4j
-public class FlinkService {
+public class FlinkQueryStateService {
 
     private final QueryableStateClient client;
 
@@ -42,10 +47,10 @@ public class FlinkService {
                     SelectionView.class
             );
 
-    private static final ValueStateDescriptor<EventEvict> eventEvictStateDescriptor =
+    private static final ValueStateDescriptor<MarketView.EventEvict> eventEvictStateDescriptor =
             new ValueStateDescriptor<>(
                     "eventEvictValueState",
-                    EventEvict.class
+                    MarketView.EventEvict.class
             );
 
     private static final MapStateDescriptor<Long, Long> selectionsToMarketsEvictMapStateDescriptor =
@@ -54,7 +59,7 @@ public class FlinkService {
                     Long.class,
                     Long.class);
 
-    private FlinkService(String host, Integer port) throws UnknownHostException {
+    private FlinkQueryStateService(String host, Integer port) throws UnknownHostException {
         log.info("Initiating connecting with {}:{}", host, port);
         this.client = new QueryableStateClient(host, port);
         client.setExecutionConfig(new ExecutionConfig());
@@ -72,7 +77,7 @@ public class FlinkService {
         return client.getKvState(JobID.fromHexString(jobId), "QueryableSelectionsState", key, BasicTypeInfo.LONG_TYPE_INFO, selectionViewStateDescriptor).join().get();
     }
 
-    public EventEvict queryEventEvictState(String jobId, Long key) throws Exception {
+    public MarketView.EventEvict queryEventEvictState(String jobId, Long key) throws Exception {
         return client.getKvState(JobID.fromHexString(jobId), "QueryableEventEvictValueState", key, BasicTypeInfo.LONG_TYPE_INFO, eventEvictStateDescriptor).join().value();
     }
 
@@ -90,7 +95,7 @@ public class FlinkService {
     }
 
 
-    public static FlinkService init(String host, Integer port) throws UnknownHostException {
-        return new FlinkService(host, port);
+    public static FlinkQueryStateService init(String host, Integer port) throws UnknownHostException {
+        return new FlinkQueryStateService(host, port);
     }
 }

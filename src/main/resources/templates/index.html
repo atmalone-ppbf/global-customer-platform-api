@@ -21,26 +21,26 @@
 
     <div class="row justify-content-md-center">
 
-        <form action="#" class="col-md-6" th:action="@{/inspect}">
+        <form action="#" class="col-md-6" th:action="@{/state/inspect}">
 
             <div class="form-group">
-                <label for="hostInput">Host running the proxy server</label>
-                <input type="text" class="form-control" id="hostInput" placeholder="Host ip" name="host">
+                <label for="state-hostInput">Host running the proxy server</label>
+                <input type="text" class="form-control" id="state-hostInput" placeholder="Host ip" name="host">
             </div>
 
             <div class="form-group">
-                <label for="portInput">Port</label>
-                <input type="text" class="form-control" id="portInput" placeholder="Host port" name="port" value="9069">
+                <label for="state-portInput">Port</label>
+                <input type="text" class="form-control" id="state-portInput" placeholder="Host port" name="port" value="9069">
             </div>
 
             <div class="form-group">
-                <label for="jobIdInput">Job Id</label>
-                <input type="text" class="form-control" id="jobIdInput" placeholder="Job id" name="jobId">
+                <label for="state-jobIdInput">Job Id</label>
+                <input type="text" class="form-control" id="state-jobIdInput" placeholder="Job id" name="jobId">
             </div>
 
             <div class="form-group">
-                <label for="stateTypeSelect">State type</label>
-                <select class="form-control" id="stateTypeSelect" name="state">
+                <label for="state-stateTypeSelect">State type</label>
+                <select class="form-control" id="state-stateTypeSelect" name="state">
                     <option value="Event">Event</option>
                     <option value="Market">Market</option>
                     <option value="Selection">Selection</option>
@@ -48,11 +48,22 @@
             </div>
 
             <div class="form-group">
-                <label for="keyInput">Key</label>
-                <input type="text" class="form-control" id="keyInput" placeholder="Key" name="key">
+                <label for="state-keyInput">Key</label>
+                <input type="text" class="form-control" id="state-keyInput" placeholder="Key" name="key">
             </div>
 
             <button class="btn btn-primary" type="submit">Query</button>
+
+        </form>
+
+        <form action="#" class="col-md-6" th:action="@{/savepoint/inspect}">
+
+            <div class="form-group">
+                <label for="savepoint-path">Savepoint/checkpoint path</label>
+                <input type="text" class="form-control" id="savepoint-path" placeholder="s3://savepoint | file:///home/user/savepoint" name="path">
+            </div>
+
+            <button class="btn btn-primary" type="submit">Analyze</button>
 
         </form>
     </div>

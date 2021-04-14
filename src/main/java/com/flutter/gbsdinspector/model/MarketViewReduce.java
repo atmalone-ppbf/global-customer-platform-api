@@ -1,5 +1,6 @@
 package com.flutter.gbsdinspector.model;
 
+import com.flutter.gbsd.model.internal.MarketView;
 import org.apache.flink.api.common.functions.ReduceFunction;
 
 import java.util.Optional;

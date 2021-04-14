@@ -1,4 +1,4 @@
-package com.flutter.gbsdinspector.model;
+package com.flutter.gbsd.model.internal;
 
 
 import lombok.AllArgsConstructor;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 public class EventEvict {
 
-    protected Long seqNo;
+    private Long seqNo;
 
     // event info
-    protected Long eventId;
-    protected Long eventScheduledStartTime;
-    protected Boolean resulted;
+    private Long eventId;
+    private Long eventScheduledStartTime;
+    private Boolean resulted;
 
-    protected Long evictionTimestamp;
+    private Long evictionTimestamp;
 
 }
