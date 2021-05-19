@@ -13,7 +13,9 @@ jobs:
       DOCKER_REGISTRY: docker.pkg.github.com
       VERSION: 1.0.${{github.run_number}}
       DOCKER_REPOSITORY: docker.pkg.github.com/flutter-global/gbsi/gbsi
-    #      INFRASTRUCTURE_REPO: Flutter-Global/
+      INFRASTRUCTURE_REPO: Flutter-Global/gbsi-configrepo-aws-ppb
+      GITHUB_USERNAME: svc-aws-trading-dev # used in the project's maven-settings.xml
+      GITHUB_TOKEN: ${{secrets.SVC_AWS_TRADING_DEV_CI_GPR_READ_ACCESS}} # used in the project's maven-settings.xml
 
     steps:
       - name: 'Checkout code'
@@ -35,11 +37,11 @@ jobs:
           docker build -t ${{env.DOCKER_REPOSITORY}}:${{env.VERSION}} .
           docker push ${{env.DOCKER_REPOSITORY}}:${{env.VERSION}}
 
-#      - name: Notify infrastructure repo
-#        if: github.event_name == 'push'
-#        uses: peter-evans/repository-dispatch@v1
-#        with:
-#          token: ${{ secrets.SVC_AWS_TRADING_DEV_CI_REPO_ACCESS }}
-#          repository: Flutter-Global/
-#          event-type: update-image-manifest
-#          client-payload: '{"docker_image": {"ImageName": "${{env.DOCKER_REPOSITORY}}","ImageTag": "${{env.VERSION}}"}, "github": ${{ toJson(github) }}}'
+      - name: Notify infrastructure repo
+        if: github.event_name == 'push'
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.SVC_AWS_TRADING_DEV_CI_REPO_ACCESS }}
+          repository: Flutter-Global/
+          event-type: update-image-manifest
+          client-payload: '{"docker_image": {"ImageName": "${{env.DOCKER_REPOSITORY}}","ImageTag": "${{env.VERSION}}"}, "github": ${{ toJson(github) }}}'
