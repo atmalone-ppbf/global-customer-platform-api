@@ -1,6 +1,6 @@
-package com.flutter.gbsdinspector.model;
+package com.flutter.gbsi.model;
 
-import com.flutter.gbsd.model.internal.SelectionView;
+import com.flutter.gbsi.model.internal.SelectionView;
 import org.apache.flink.api.common.functions.ReduceFunction;
 
 import java.util.Optional;

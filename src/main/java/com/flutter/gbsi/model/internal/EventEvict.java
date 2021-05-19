@@ -1,4 +1,4 @@
-package com.flutter.gbsd.model.internal;
+package com.flutter.gbsi.model.internal;
 
 
 import lombok.AllArgsConstructor;

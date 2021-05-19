@@ -1,7 +1,7 @@
-package com.flutter.gbsdinspector.operators;
+package com.flutter.gbsi.operators;
 
-import com.flutter.gbsd.model.internal.SelectionView;
-import com.flutter.gbsdinspector.model.SelectionViewReduce;
+import com.flutter.gbsi.model.internal.SelectionView;
+import com.flutter.gbsi.model.SelectionViewReduce;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ReducingState;
 import org.apache.flink.api.common.state.ReducingStateDescriptor;

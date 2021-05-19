@@ -1,12 +1,12 @@
-package com.flutter.gbsdinspector.service;
+package com.flutter.gbsi.service;
 
-import com.flutter.gbsd.model.internal.EventView;
-import com.flutter.gbsd.model.internal.MarketView;
-import com.flutter.gbsd.model.internal.SelectionView;
-import com.flutter.gbsdinspector.model.SavepointAnalysis;
-import com.flutter.gbsdinspector.operators.EventDecoratorReader;
-import com.flutter.gbsdinspector.operators.MarketDecoratorReader;
-import com.flutter.gbsdinspector.operators.SelectionDecoratorReader;
+import com.flutter.gbsi.model.internal.EventView;
+import com.flutter.gbsi.model.internal.MarketView;
+import com.flutter.gbsi.model.internal.SelectionView;
+import com.flutter.gbsi.model.SavepointAnalysis;
+import com.flutter.gbsi.operators.EventDecoratorReader;
+import com.flutter.gbsi.operators.MarketDecoratorReader;
+import com.flutter.gbsi.operators.SelectionDecoratorReader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.operators.Order;
 import org.apache.flink.api.common.typeinfo.Types;

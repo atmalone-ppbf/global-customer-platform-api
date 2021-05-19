@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.flutter</groupId>
-	<artifactId>gbsd-inspector</artifactId>
+	<artifactId>gbsi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gbsd-inspector</name>
-	<description>GBSD Inspector</description>
+	<name>gbsi</name>
+	<description>GBS Inspector</description>
 
 	<properties>
 		<java.version>11</java.version>

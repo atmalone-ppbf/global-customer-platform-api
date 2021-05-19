@@ -1,7 +1,7 @@
-package com.flutter.gbsdinspector.operators;
+package com.flutter.gbsi.operators;
 
-import com.flutter.gbsd.model.internal.MarketView;
-import com.flutter.gbsdinspector.model.MarketViewReduce;
+import com.flutter.gbsi.model.internal.MarketView;
+import com.flutter.gbsi.model.MarketViewReduce;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ReducingState;
 import org.apache.flink.api.common.state.ReducingStateDescriptor;

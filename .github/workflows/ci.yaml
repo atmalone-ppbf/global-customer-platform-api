@@ -12,7 +12,7 @@ jobs:
     env:
       DOCKER_REGISTRY: docker.pkg.github.com
       VERSION: 1.0.${{github.run_number}}
-      DOCKER_REPOSITORY: docker.pkg.github.com/flutter-global/gbsd-state-inspector/gbsd-state-inspector
+      DOCKER_REPOSITORY: docker.pkg.github.com/flutter-global/gbsi/gbsi
     #      INFRASTRUCTURE_REPO: Flutter-Global/
 
     steps:

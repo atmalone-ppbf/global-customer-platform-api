@@ -1,9 +1,9 @@
-package com.flutter.gbsdinspector.controller;
+package com.flutter.gbsi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.flutter.gbsdinspector.model.SavepointAnalysis;
-import com.flutter.gbsdinspector.service.FlinkSavepointAnalysisService;
+import com.flutter.gbsi.model.SavepointAnalysis;
+import com.flutter.gbsi.service.FlinkSavepointAnalysisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

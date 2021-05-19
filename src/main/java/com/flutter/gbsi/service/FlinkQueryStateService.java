@@ -1,11 +1,11 @@
-package com.flutter.gbsdinspector.service;
+package com.flutter.gbsi.service;
 
-import com.flutter.gbsd.model.internal.EventView;
-import com.flutter.gbsd.model.internal.MarketView;
-import com.flutter.gbsd.model.internal.SelectionView;
-import com.flutter.gbsdinspector.model.EventViewReduce;
-import com.flutter.gbsdinspector.model.MarketViewReduce;
-import com.flutter.gbsdinspector.model.SelectionViewReduce;
+import com.flutter.gbsi.model.internal.EventView;
+import com.flutter.gbsi.model.internal.MarketView;
+import com.flutter.gbsi.model.internal.SelectionView;
+import com.flutter.gbsi.model.EventViewReduce;
+import com.flutter.gbsi.model.MarketViewReduce;
+import com.flutter.gbsi.model.SelectionViewReduce;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;

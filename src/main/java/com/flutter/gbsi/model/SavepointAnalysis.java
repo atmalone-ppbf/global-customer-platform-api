@@ -1,6 +1,6 @@
-package com.flutter.gbsdinspector.model;
+package com.flutter.gbsi.model;
 
-import com.flutter.gbsd.model.internal.EventView;
+import com.flutter.gbsi.model.internal.EventView;
 import lombok.Builder;
 import lombok.Getter;
 import org.apache.flink.api.java.tuple.Tuple2;
