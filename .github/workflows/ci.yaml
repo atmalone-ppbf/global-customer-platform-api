@@ -42,6 +42,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.SVC_AWS_TRADING_DEV_CI_REPO_ACCESS }}
-          repository: Flutter-Global/
+          repository: ${{ env.INFRASTRUCTURE_REPO }}
           event-type: update-image-manifest
           client-payload: '{"docker_image": {"ImageName": "${{env.DOCKER_REPOSITORY}}","ImageTag": "${{env.VERSION}}"}, "github": ${{ toJson(github) }}}'
