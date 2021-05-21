@@ -1,4 +1,4 @@
-package com.flutter.gbsi.model.internal;
+package com.flutter.gbsd.model.internal;
 
 public enum MessageType {
     UPDATE,

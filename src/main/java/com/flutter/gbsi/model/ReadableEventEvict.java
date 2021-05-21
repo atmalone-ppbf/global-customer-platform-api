@@ -1,7 +1,7 @@
 package com.flutter.gbsi.model;
 
 
-import com.flutter.gbsi.model.internal.MarketView;
+import com.flutter.gbsd.model.internal.MarketView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

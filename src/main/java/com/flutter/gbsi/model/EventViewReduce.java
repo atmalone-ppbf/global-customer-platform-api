@@ -1,6 +1,6 @@
 package com.flutter.gbsi.model;
 
-import com.flutter.gbsi.model.internal.EventView;
+import com.flutter.gbsd.model.internal.EventView;
 import org.apache.flink.api.common.functions.ReduceFunction;
 
 import java.util.Optional;

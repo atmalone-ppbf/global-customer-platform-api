@@ -1,8 +1,8 @@
 package com.flutter.gbsi.service;
 
-import com.flutter.gbsi.model.internal.EventView;
-import com.flutter.gbsi.model.internal.MarketView;
-import com.flutter.gbsi.model.internal.SelectionView;
+import com.flutter.gbsd.model.internal.EventView;
+import com.flutter.gbsd.model.internal.MarketView;
+import com.flutter.gbsd.model.internal.SelectionView;
 import com.flutter.gbsi.model.SavepointAnalysis;
 import com.flutter.gbsi.operators.EventDecoratorReader;
 import com.flutter.gbsi.operators.MarketDecoratorReader;

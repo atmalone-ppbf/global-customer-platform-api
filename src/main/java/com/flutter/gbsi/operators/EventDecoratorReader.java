@@ -1,6 +1,6 @@
 package com.flutter.gbsi.operators;
 
-import com.flutter.gbsi.model.internal.EventView;
+import com.flutter.gbsd.model.internal.EventView;
 import com.flutter.gbsi.model.EventViewReduce;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ReducingState;

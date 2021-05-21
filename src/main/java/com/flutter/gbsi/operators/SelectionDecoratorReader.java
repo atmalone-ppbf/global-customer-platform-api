@@ -1,6 +1,6 @@
 package com.flutter.gbsi.operators;
 
-import com.flutter.gbsi.model.internal.SelectionView;
+import com.flutter.gbsd.model.internal.SelectionView;
 import com.flutter.gbsi.model.SelectionViewReduce;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ReducingState;
