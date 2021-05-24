@@ -11,4 +11,4 @@ ARG JAR_FILE=target/*.jar
 
 COPY ${JAR_FILE} gbsi.jar
 
-ENTRYPOINT ["java", "-Xms${JAVA_XMS}", "-Xmx${JAVA_XMX}","-jar","/gbsi.jar"]
+ENTRYPOINT java -Xms${JAVA_XMS} -Xmx${JAVA_XMX} -jar /gbsi.jar
