@@ -61,7 +61,7 @@ public class FlinkSavepointAnalysisService {
                 .first(10)
                 .collect();
 
-        List<String> allNickNames = nicknameState.sortPartition(0, Order.ASCENDING).collect();
+        List<String> nicknames = nicknameState.collect();
 
         return SavepointAnalysis.builder()
                 .totalEvents(eventViewState.count())
@@ -71,7 +71,7 @@ public class FlinkSavepointAnalysisService {
                 .eventsWithoutStartTime(eventsWithoutStartTime)
                 .eventsWithMostMarkets(eventsWithMostMarkets)
                 .marketsWithMostSelections(marketsWithMostSelections)
-                .allNicknames(allNickNames)
+                .nicknames(nicknames)
                 .build();
     }
 
