@@ -6,6 +6,7 @@ import com.flutter.gbsd.model.internal.SelectionView;
 import com.flutter.gbsi.model.SavepointAnalysis;
 import com.flutter.gbsi.operators.EventDecoratorReader;
 import com.flutter.gbsi.operators.MarketDecoratorReader;
+import com.flutter.gbsi.operators.NicknamingDecoratorReader;
 import com.flutter.gbsi.operators.SelectionDecoratorReader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.operators.Order;
@@ -30,6 +31,7 @@ public class FlinkSavepointAnalysisService {
         DataSet<EventView> eventViewState = savepoint.readKeyedState("eventDecoration", new EventDecoratorReader(), Types.LONG, Types.GENERIC(EventView.class));
         DataSet<MarketView> marketViewState = savepoint.readKeyedState("marketDecoration", new MarketDecoratorReader());
         DataSet<SelectionView> selectionViewState = savepoint.readKeyedState("selectionDecoration", new SelectionDecoratorReader());
+        DataSet<String> nicknameState = savepoint.readKeyedState("nicknameDecoration", new NicknamingDecoratorReader());
 
          List<EventView> eventsWithoutStartTime = eventViewState
                 .filter(ew -> ew.getEventScheduledStartTime() == null)
@@ -59,6 +61,8 @@ public class FlinkSavepointAnalysisService {
                 .first(10)
                 .collect();
 
+        List<String> allNickNames = nicknameState.sortPartition(0, Order.ASCENDING).collect();
+
         return SavepointAnalysis.builder()
                 .totalEvents(eventViewState.count())
                 .totalMarkets(marketViewState.count())
@@ -67,6 +71,7 @@ public class FlinkSavepointAnalysisService {
                 .eventsWithoutStartTime(eventsWithoutStartTime)
                 .eventsWithMostMarkets(eventsWithMostMarkets)
                 .marketsWithMostSelections(marketsWithMostSelections)
+                .allNicknames(allNickNames)
                 .build();
     }
 

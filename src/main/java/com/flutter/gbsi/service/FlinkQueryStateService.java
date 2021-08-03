@@ -9,11 +9,9 @@ import com.flutter.gbsi.model.SelectionViewReduce;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
-import org.apache.flink.api.common.state.MapState;
-import org.apache.flink.api.common.state.MapStateDescriptor;
-import org.apache.flink.api.common.state.ReducingStateDescriptor;
-import org.apache.flink.api.common.state.ValueStateDescriptor;
+import org.apache.flink.api.common.state.*;
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
+import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.queryablestate.client.QueryableStateClient;
 
 import java.net.UnknownHostException;
@@ -47,6 +45,12 @@ public class FlinkQueryStateService {
                     SelectionView.class
             );
 
+    private static final ValueStateDescriptor<String> nicknameStateDescriptor =
+            new ValueStateDescriptor<>(
+                    "nicknameState",
+                    Types.STRING
+            );
+
     private static final ValueStateDescriptor<MarketView.EventEvict> eventEvictStateDescriptor =
             new ValueStateDescriptor<>(
                     "eventEvictValueState",
@@ -75,6 +79,10 @@ public class FlinkQueryStateService {
 
     public SelectionView querySelectionState(String jobId, Long key) throws Exception {
         return client.getKvState(JobID.fromHexString(jobId), "QueryableSelectionsState", key, BasicTypeInfo.LONG_TYPE_INFO, selectionViewStateDescriptor).join().get();
+    }
+
+    public String queryNicknameState(String jobId, String key) throws Exception {
+        return client.getKvState(JobID.fromHexString(jobId), "QueryableNicknameState", key, BasicTypeInfo.STRING_TYPE_INFO, nicknameStateDescriptor).get().value();
     }
 
     public MarketView.EventEvict queryEventEvictState(String jobId, Long key) throws Exception {

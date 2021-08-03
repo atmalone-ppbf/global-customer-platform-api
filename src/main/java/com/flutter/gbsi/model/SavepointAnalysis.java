@@ -18,4 +18,6 @@ public class SavepointAnalysis {
     private final List<EventView> eventsWithoutStartTime;
     private final List<Tuple2<Long, Long>> eventsWithMostMarkets;
     private final List<Tuple2<Long, Long>> marketsWithMostSelections;
+
+    private final List<String> allNicknames;
 }

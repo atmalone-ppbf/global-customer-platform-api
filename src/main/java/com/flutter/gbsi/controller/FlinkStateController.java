@@ -57,6 +57,8 @@ public class FlinkStateController {
                 getMarketInfo(jobId, key, model, service);
             } else if ("selection".equalsIgnoreCase(state)) {
                 getSelectionInfo(jobId, key, model, service);
+            } else if ("nickname".equalsIgnoreCase(state)) {
+                getNickname(jobId, key.toString(), model, service);
             }
         } catch (Exception e) {
             log.error("Exception thrown", e);
@@ -70,6 +72,11 @@ public class FlinkStateController {
         final SelectionView selectionView = service.querySelectionState(jobId, key);
         model.addAttribute("selectionView", objectWriter.writeValueAsString(selectionView));
         getMarketInfo(jobId, selectionView.getMarketId(), model, service);
+    }
+
+    private void getNickname(String jobId, String key, Model model, FlinkQueryStateService service) throws Exception {
+        final String nickname = service.queryNicknameState(jobId, key);
+        model.addAttribute("nickname", objectWriter.writeValueAsString(nickname));
     }
 
     private void getMarketInfo(String jobId, Long key, Model model, FlinkQueryStateService service) throws Exception {
