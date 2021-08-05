@@ -15,25 +15,11 @@ public class FlinkService {
 
     private final QueryableStateClient client;
 
-    public static final ReducingStateDescriptor<EventView> eventViewStateDescriptor =
-            new ReducingStateDescriptor<EventView>(
-                    "eventViewState",
-                    new EventViewReduce(),
-                    EventView.class
-            );
-
-    public static final ReducingStateDescriptor<MarketView> marketViewStateDescriptor =
-            new ReducingStateDescriptor<MarketView>(
-                    "marketViewState",
-                    new MarketViewReduce(),
-                    MarketView.class
-            );
-
-    private static final ReducingStateDescriptor<SelectionView> selectionViewStateDescriptor =
-            new ReducingStateDescriptor<SelectionView>(
+    private static final ReducingStateDescriptor<Customer> selectionViewStateDescriptor =
+            new ReducingStateDescriptor<Customer>(
                     "selectionViewState",
-                    new SelectionViewReduce(),
-                    SelectionView.class
+                    new CustomerReduce(),
+                    Customer.class
             );
 
     private FlinkService(String host, Integer port) throws UnknownHostException {
@@ -42,16 +28,8 @@ public class FlinkService {
         client.setExecutionConfig(new ExecutionConfig());
     }
 
-    public EventView queryEventState(String jobId, Long key) throws Exception {
-        return client.getKvState(JobID.fromHexString(jobId), "QueryableEventsState", key, BasicTypeInfo.LONG_TYPE_INFO, eventViewStateDescriptor).join().get();
-    }
-
-    public MarketView queryMarketState(String jobId, Long key) throws Exception {
-        return client.getKvState(JobID.fromHexString(jobId), "QueryableMarketsState", key, BasicTypeInfo.LONG_TYPE_INFO, marketViewStateDescriptor).join().get();
-    }
-
-    public SelectionView querySelectionState(String jobId, Long key) throws Exception {
-        return client.getKvState(JobID.fromHexString(jobId), "QueryableSelectionsState", key, BasicTypeInfo.LONG_TYPE_INFO, selectionViewStateDescriptor).join().get();
+    public Customer querySelectionState(Long key) throws Exception {
+        return client.getKvState(JobID.fromHexString("CHANGETHISMOFO"), "QueryableSelectionsState", key, BasicTypeInfo.LONG_TYPE_INFO, selectionViewStateDescriptor).join().get();
     }
 
     public void close() {
