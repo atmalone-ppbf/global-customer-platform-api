@@ -3,7 +3,7 @@ package com.flutter.gbsdinspector.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.flutter.gbsdinspector.model.Customer;
-import com.flutter.gbsdinspector.service.FlinkService;
+import com.flutter.gbsdinspector.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;
@@ -31,25 +31,25 @@ public class CustomerController {
         try {
 
             String key = "";
-            boolean isCustomerSearch = false;
+            boolean isCustomerIdSearch = false;
 
             //Determine if search string is nickname or customer id
+            //Create the key
             if(NumberUtils.isCreatable(searchString)){
                 Double customerId = Double.valueOf(searchString);
-                isCustomerSearch = true;
+                isCustomerIdSearch = true;
                 key = brandId + customerId;
             }else{
                 key = brandId + searchString;
             }
 
-            FlinkService service = FlinkService.init("localhost", 8080);
-            if (isCustomerSearch) {
-                final Customer selectionView = service.querySelectionState(key);
-                model.addAttribute("selectionView", objectWriter.writeValueAsString(selectionView));
+
+            if (isCustomerIdSearch) {
+                CustomerService service = CustomerService.init("localhost", 8080);
+                final Customer customer = service.querySelectionState(key);
             }
         } catch (Exception e) {
             log.error("Exception thrown", e);
-            model.addAttribute("error", e);
         }
 
         return "state";

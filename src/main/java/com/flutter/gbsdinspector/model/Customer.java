@@ -30,10 +30,10 @@ public class Customer {
 
     private Tuple2<String, String> linkedAccounts;
 
-    private String reasonForStakeFactorchange;
+    private String stakeFactorChangeReason;
 
     private String liabilityGroup;
 
-    private List<String> historyOfStakeFactorChanges;
+    private List<String> StakeFactorChangeHistory;
 
 }

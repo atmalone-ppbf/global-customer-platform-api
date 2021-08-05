@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.flutter</groupId>
-	<artifactId>gbsd-inspector</artifactId>
+	<artifactId>gcp-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gbsd-inspector</name>
-	<description>GBSD Inspector</description>
+	<name>gcp-api</name>
+	<description>Global Customer Platform Api</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -28,7 +28,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
