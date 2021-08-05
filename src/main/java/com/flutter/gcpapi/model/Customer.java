@@ -6,34 +6,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.flink.api.java.tuple.Tuple2;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Customer {
+    String accountId;
+    String brand;
+    String customerNickname;
+    List<Tuple2<Long, Float>> stakeFactors;
+    List<String> lastFiveBets;
+    long betCount;
+    Float currentStakeFactor;
+    String liabilityGroup;
+    Double totalStaked;
+    List<Tuple2<Long, String>> traderComments;
 
-    private String brand;
-
-    // market info
-    private Double customerId;
-
-    // selection info
-    private String customerNickname;
-
-    private Integer betCount;
-
-    private Object aggregatedMetricsFromBets;
-
-    private String lastFiveBetsDetails;
-
-    private Tuple2<String, String> linkedAccounts;
-
-    private String stakeFactorChangeReason;
-
-    private String liabilityGroup;
-
-    private List<String> StakeFactorChangeHistory;
-
+    Map<String, MatchedAccount> matchedAccounts = new HashMap<>();
 }

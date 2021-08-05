@@ -3,6 +3,7 @@ package com.flutter.gcpapi.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.flutter.gcpapi.model.Customer;
+import com.flutter.gcpapi.model.NicknamedAccount;
 import com.flutter.gcpapi.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -31,22 +32,27 @@ public class CustomerController {
         try {
 
             String key = "";
-            boolean isCustomerIdSearch = false;
+            boolean isAccountIdSearch = false;
 
             //Determine if search string is nickname or customer id
             //Create the key
             if(NumberUtils.isCreatable(searchString)){
-                Double customerId = Double.valueOf(searchString);
-                isCustomerIdSearch = true;
-                key = brandId + customerId;
+                Double accountId = Double.valueOf(searchString);
+                isAccountIdSearch = true;
+                key = brandId + accountId;
             }else{
                 key = brandId + searchString;
             }
 
 
-            if (isCustomerIdSearch) {
-                CustomerService service = CustomerService.init("localhost", 8080);
-                final Customer customer = service.querySelectionState(key);
+            CustomerService service = CustomerService.init("localhost", 8080);
+            if (isAccountIdSearch) {
+                //if the key is a Brand+accountId call service for getting the state of CUSTOMER_STATE_DESCRIPTOR
+                final Customer customer = service.queryCustomerState(key);
+            }
+            else {
+                //Call customer nickname service to get NICKNAMED_ACCOUNT_STATE_DESCRIPTOR then get customer from the matched account.
+                final NicknamedAccount nicknamedAccount = service.queryNicknamedAccountState(key);
             }
         } catch (Exception e) {
             log.error("Exception thrown", e);
