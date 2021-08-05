@@ -1,4 +1,4 @@
-package com.flutter.gbsdinspector.model;
+package com.flutter.gcpapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

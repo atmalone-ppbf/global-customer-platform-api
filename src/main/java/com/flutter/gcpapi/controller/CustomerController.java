@@ -1,9 +1,9 @@
-package com.flutter.gbsdinspector.controller;
+package com.flutter.gcpapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.flutter.gbsdinspector.model.Customer;
-import com.flutter.gbsdinspector.service.CustomerService;
+import com.flutter.gcpapi.model.Customer;
+import com.flutter.gcpapi.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;

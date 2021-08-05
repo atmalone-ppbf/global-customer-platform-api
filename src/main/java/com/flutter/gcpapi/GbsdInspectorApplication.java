@@ -1,4 +1,4 @@
-package com.flutter.gbsdinspector;
+package com.flutter.gcpapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
