@@ -25,6 +25,9 @@ public class Customer {
     String liabilityGroup;
     Double totalStaked;
     List<Tuple2<Long, String>> traderComments;
+    Double averageStake;
 
-    Map<String, MatchedAccount> matchedAccounts = new HashMap<>();
+    int internalBetCount;
+
+    Map<String, MatchedAccount> matchedAccounts;
 }

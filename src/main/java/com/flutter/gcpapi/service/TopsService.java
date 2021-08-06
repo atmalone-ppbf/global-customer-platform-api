@@ -34,11 +34,11 @@ public class TopsService {
         client.setExecutionConfig(new ExecutionConfig());
     }
 
-    public Map<String,List<Customer>> queryTopsState(String key) throws Exception {
+    public Map<String,List<Customer>> queryTopsState() throws Exception {
         MapState<String, List<Customer>> mapState =  client.getKvState(
-                JobID.fromHexString("6a0add459864f470954f87f7b0d73a2e"),
+                JobID.fromHexString("e3a6108d99a55dee02d65322d8c0ac42"),
                 "QueryableNicknamedAccountState",
-                key,
+                "TODO:TOPSKEY",
                 BasicTypeInfo.STRING_TYPE_INFO,
                 TOPS_STATE_DESCRIPTOR).join();
 

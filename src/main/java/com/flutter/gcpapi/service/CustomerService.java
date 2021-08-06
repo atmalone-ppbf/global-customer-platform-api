@@ -24,18 +24,20 @@ public class CustomerService {
     private final QueryableStateClient client;
 
     private static final ValueStateDescriptor<Customer> CUSTOMER_STATE_DESCRIPTOR =
-            new ValueStateDescriptor<>("customerState", Customer.class);
+            new ValueStateDescriptor<>(
+                    "customerState",
+                    Customer.class);
 
     private CustomerService(Integer port) throws UnknownHostException {
-        log.info("Initiating connecting with {}", port);
+        log.debug("Initiating connecting with {}", port);
         this.client = new QueryableStateClient("localhost", port);
         client.setExecutionConfig(new ExecutionConfig());
     }
 
     public Customer queryCustomerState(String key) throws Exception {
         return client.getKvState(
-                JobID.fromHexString("a2ee0cc71e77979c1cca2e8c09202bcd"),
-                "QueryableCustomerState",
+                JobID.fromHexString("e3a6108d99a55dee02d65322d8c0ac42"),
+                "customerState",
                 key,
                 BasicTypeInfo.STRING_TYPE_INFO,
                 CUSTOMER_STATE_DESCRIPTOR).get().value();
