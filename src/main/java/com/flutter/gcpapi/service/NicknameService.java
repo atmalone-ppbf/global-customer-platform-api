@@ -1,11 +1,13 @@
 package com.flutter.gcpapi.service;
 
+import com.flutter.gcpapi.model.Customer;
 import com.flutter.gcpapi.model.NicknamedAccount;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
+import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.queryablestate.client.QueryableStateClient;
@@ -20,26 +22,23 @@ public class NicknameService {
 
     private final QueryableStateClient client;
 
-    private static final MapStateDescriptor<String, NicknamedAccount> nicknamedAccountStateDescriptor =
-            new MapStateDescriptor<>(
-                    "nicknamedAccountState",
-                    Types.STRING,
-                    Types.POJO(NicknamedAccount.class)
-            );
+    private static final MapStateDescriptor<String, NicknamedAccount> NICKNAMED_ACCOUNT_STATE_DESCRIPTOR =
+            new MapStateDescriptor<>("nicknamedAccountState", Types.STRING, Types.POJO(NicknamedAccount.class));
 
-    private NicknameService(String host, Integer port) throws UnknownHostException {
-        log.info("Initiating connecting with {}:{}", host, port);
-        this.client = new QueryableStateClient(host, port);
+
+    private NicknameService(Integer port) throws UnknownHostException {
+        log.debug("Initiating connecting with localhost:{}", port);
+        this.client = new QueryableStateClient("localhost",port);
         client.setExecutionConfig(new ExecutionConfig());
     }
 
     public Map<String,NicknamedAccount> queryNicknamedAccountState(String key) throws Exception {
         MapState<String, NicknamedAccount> mapState =  client.getKvState(
-                JobID.fromHexString("CHANGETHISMOFO"),
+                JobID.fromHexString("6a0add459864f470954f87f7b0d73a2e"),
                 "QueryableNicknamedAccountState",
                 key,
                 BasicTypeInfo.STRING_TYPE_INFO,
-                nicknamedAccountStateDescriptor).join();
+                NICKNAMED_ACCOUNT_STATE_DESCRIPTOR).join();
 
         return StreamSupport.stream(mapState.entries().spliterator(), false).collect(Collectors.toMap(
                 Map.Entry::getKey,
@@ -53,7 +52,7 @@ public class NicknameService {
     }
 
 
-    public static NicknameService init(String host, Integer port) throws UnknownHostException {
-        return new NicknameService(host, port);
+    public static NicknameService init(Integer port) throws UnknownHostException {
+        return new NicknameService(port);
     }
 }

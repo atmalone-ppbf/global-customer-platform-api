@@ -50,7 +50,7 @@ public class CustomerController {
             if (isNicknameSearch) {
                 //The search is for an account with brand+Nickname
                 //Call customer nickname service to get NICKNAMED_ACCOUNT_STATE_DESCRIPTOR then get customer from the matched account.
-                final NicknameService nicknameService = NicknameService.init("localhost", 9069);
+                final NicknameService nicknameService = NicknameService.init(8089);
                 //Get the nicknamed account from state
                 final Map<String, NicknamedAccount> nicknamedAccountMap = nicknameService.queryNicknamedAccountState(key);
 
@@ -59,7 +59,7 @@ public class CustomerController {
             }
 
             //get the customer account from the nicknamed account
-            CustomerService service = CustomerService.init("localhost", 8080);
+            CustomerService service = CustomerService.init(8089);
             final Customer customer = service.queryCustomerState(key);
             Gson gson = new Gson();
             customerJson = gson.toJson(customer);

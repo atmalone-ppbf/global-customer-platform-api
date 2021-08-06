@@ -23,41 +23,22 @@ public class CustomerService {
 
     private final QueryableStateClient client;
 
-    private static final ValueStateDescriptor<Customer> customerStateDescriptor =
-            new ValueStateDescriptor<>(
-                    "customerState",
-                    Customer.class
-            );
+    private static final ValueStateDescriptor<Customer> CUSTOMER_STATE_DESCRIPTOR =
+            new ValueStateDescriptor<>("customerState", Customer.class);
 
-    private static final MapStateDescriptor<String, NicknamedAccount> nicknamedAccountStateDescriptor =
-            new MapStateDescriptor<>(
-                    "nicknamedAccountState",
-                    Types.STRING,
-                    Types.POJO(NicknamedAccount.class)
-            );
-
-    private CustomerService(String host, Integer port) throws UnknownHostException {
-        log.info("Initiating connecting with {}:{}", host, port);
-        this.client = new QueryableStateClient(host, port);
+    private CustomerService(Integer port) throws UnknownHostException {
+        log.info("Initiating connecting with {}", port);
+        this.client = new QueryableStateClient("localhost", port);
         client.setExecutionConfig(new ExecutionConfig());
     }
 
     public Customer queryCustomerState(String key) throws Exception {
-        return client.getKvState(JobID.fromHexString("CHANGETHISMOFO"), "QueryableCustomerState", key, BasicTypeInfo.STRING_TYPE_INFO, customerStateDescriptor).get().value();
-    }
-
-    public Map<String,NicknamedAccount> queryNicknamedAccountState(String key) throws Exception {
-        MapState<String, NicknamedAccount> mapState =  client.getKvState(
-                JobID.fromHexString("CHANGETHISMOFO"),
-                "QueryableNicknamedAccountState",
+        return client.getKvState(
+                JobID.fromHexString("6a0add459864f470954f87f7b0d73a2e"),
+                "QueryableCustomerState",
                 key,
                 BasicTypeInfo.STRING_TYPE_INFO,
-                nicknamedAccountStateDescriptor).join();
-
-        return StreamSupport.stream(mapState.entries().spliterator(), false).collect(Collectors.toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue
-        ));
+                CUSTOMER_STATE_DESCRIPTOR).get().value();
     }
 
     public void close() {
@@ -66,7 +47,7 @@ public class CustomerService {
     }
 
 
-    public static CustomerService init(String host, Integer port) throws UnknownHostException {
-        return new CustomerService(host, port);
+    public static CustomerService init(Integer port) throws UnknownHostException {
+        return new CustomerService(port);
     }
 }
