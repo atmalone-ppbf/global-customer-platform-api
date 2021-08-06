@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -37,7 +38,7 @@ public class TopsController {
             //Call customer nickname service to get NICKNAMED_ACCOUNT_STATE_DESCRIPTOR then get customer from the matched account.
             final TopsService topsService = TopsService.init(8089);
             //Get the nicknamed account from state
-            final Map<String, NicknamedAccount> topsMap = topsService.queryTopsState(key);
+            final Map<String, List<Customer>> topsMap = topsService.queryTopsState(key);
 
             Gson gson = new Gson();
             tops = gson.toJson(topsMap);
