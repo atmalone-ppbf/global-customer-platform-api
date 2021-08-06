@@ -1,13 +1,13 @@
-package com.flutter.gbsi;
+package com.flutter.gcpapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GbsiApplication {
+public class GcpApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GbsiApplication.class, args);
+		SpringApplication.run(GcpApiApplication.class, args);
 	}
 
 }
