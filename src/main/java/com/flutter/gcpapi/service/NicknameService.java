@@ -23,7 +23,9 @@ public class NicknameService {
     private final QueryableStateClient client;
 
     private static final MapStateDescriptor<String, NicknamedAccount> NICKNAMED_ACCOUNT_STATE_DESCRIPTOR =
-            new MapStateDescriptor<>("nicknamedAccountState", Types.STRING, Types.POJO(NicknamedAccount.class));
+            new MapStateDescriptor<>("nicknamedAccountState",
+                    Types.STRING,
+                    Types.POJO(NicknamedAccount.class));
 
 
     private NicknameService(Integer port) throws UnknownHostException {
@@ -34,8 +36,8 @@ public class NicknameService {
 
     public Map<String,NicknamedAccount> queryNicknamedAccountState(String key) throws Exception {
         MapState<String, NicknamedAccount> mapState =  client.getKvState(
-                JobID.fromHexString("a2ee0cc71e77979c1cca2e8c09202bcd"),
-                "QueryableNicknamedAccountState",
+                JobID.fromHexString("e3a6108d99a55dee02d65322d8c0ac42"),
+                "nicknamedAccountState",
                 key,
                 BasicTypeInfo.STRING_TYPE_INFO,
                 NICKNAMED_ACCOUNT_STATE_DESCRIPTOR).join();

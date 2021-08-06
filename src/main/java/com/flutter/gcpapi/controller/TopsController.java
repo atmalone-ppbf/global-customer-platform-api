@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/search")
+@RequestMapping("/api/top-customers")
 public class TopsController {
 
     private final ObjectWriter objectWriter;
@@ -29,16 +29,15 @@ public class TopsController {
         this.objectWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
     }
 
-    @GetMapping("/tops")
+    @GetMapping("")
     public String inspect() throws Exception {
         String tops = "tops empty";
         try {
-            String key = "";
             //The search is for an account with brand+Nickname
             //Call customer nickname service to get NICKNAMED_ACCOUNT_STATE_DESCRIPTOR then get customer from the matched account.
             final TopsService topsService = TopsService.init(8089);
             //Get the nicknamed account from state
-            final Map<String, List<Customer>> topsMap = topsService.queryTopsState(key);
+            final Map<String, List<Customer>> topsMap = topsService.queryTopsState();
 
             Gson gson = new Gson();
             tops = gson.toJson(topsMap);
