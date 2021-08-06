@@ -13,12 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
 @Slf4j
-@Controller
-@RequestMapping("/search")
+@RestController
+@RequestMapping("/api/customer")
 public class CustomerController {
 
     private final ObjectWriter objectWriter;
@@ -27,9 +28,9 @@ public class CustomerController {
         this.objectWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
     }
 
-    @GetMapping("/inspect")
+    @GetMapping()
     public String inspect(
-            @RequestParam(name = "searchString") String searchString,
+            @RequestParam(name = "accountId") String accountId,
             @RequestParam(name = "brand") String brand
     ) throws Exception {
         String customerJson = "customer not found";
@@ -39,12 +40,12 @@ public class CustomerController {
 
             //Determine if search string is nickname or customer id
             //Create the key
-            if (NumberUtils.isCreatable(searchString)) {
-                Double accountIdFromSearch = Double.valueOf(searchString);
+            if (NumberUtils.isCreatable(accountId)) {
+                Double accountIdFromSearch = Double.valueOf(accountId);
                 key = brand + accountIdFromSearch;
             } else {
                 isNicknameSearch = true;
-                key = brand + searchString;
+                key = brand + accountId;
             }
 
             if (isNicknameSearch) {
@@ -54,7 +55,7 @@ public class CustomerController {
                 //Get the nicknamed account from state
                 final Map<String, NicknamedAccount> nicknamedAccountMap = nicknameService.queryNicknamedAccountState(key);
 
-                NicknamedAccount nicknamedAccount = nicknamedAccountMap.get(searchString);
+                NicknamedAccount nicknamedAccount = nicknamedAccountMap.get(accountId);
                 key = nicknamedAccount.getBrand() + nicknamedAccount.getAccountId();
             }
 
