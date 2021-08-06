@@ -6,15 +6,14 @@ import com.flutter.gcpapi.model.Customer;
 import com.flutter.gcpapi.model.NicknamedAccount;
 import com.flutter.gcpapi.service.CustomerService;
 import com.flutter.gcpapi.service.NicknameService;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.UnknownHostException;
 import java.util.Map;
 
 @Slf4j
@@ -22,10 +21,16 @@ import java.util.Map;
 @RequestMapping("/api/customer")
 public class CustomerController {
 
-    private final ObjectWriter objectWriter;
+    public static final int QUERYABLE_STATE_PORT = 9902;
 
-    public CustomerController() {
+    private final ObjectWriter objectWriter;
+    private final NicknameService nicknameService;
+    private final CustomerService customerService;
+
+    public CustomerController() throws UnknownHostException {
         this.objectWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+        this.nicknameService = NicknameService.init(QUERYABLE_STATE_PORT);
+        this.customerService = CustomerService.init(QUERYABLE_STATE_PORT);
     }
 
     @GetMapping()
@@ -40,18 +45,14 @@ public class CustomerController {
 
             //Determine if search string is nickname or customer id
             //Create the key
-            if (NumberUtils.isCreatable(accountId)) {
-                Double accountIdFromSearch = Double.valueOf(accountId);
-                key = brand + "/" + accountIdFromSearch;
-            } else {
+            if (!NumberUtils.isCreatable(accountId)) {
                 isNicknameSearch = true;
-                key = brand + "/" + accountId;
             }
+            key = brand + "/" + accountId;
 
             if (isNicknameSearch) {
                 //The search is for an account with brand+Nickname
                 //Call customer nickname service to get NICKNAMED_ACCOUNT_STATE_DESCRIPTOR then get customer from the matched account.
-                final NicknameService nicknameService = NicknameService.init(8089);
                 //Get the nicknamed account from state
                 final Map<String, NicknamedAccount> nicknamedAccountMap = nicknameService.queryNicknamedAccountState(key);
 
@@ -60,10 +61,8 @@ public class CustomerController {
             }
 
             //get the customer account from the nicknamed account
-            CustomerService service = CustomerService.init(8089);
-            final Customer customer = service.queryCustomerState(key);
-            Gson gson = new Gson();
-            customerJson = gson.toJson(customer);
+            final Customer customer = this.customerService.queryCustomerState(key);
+            customerJson = this.objectWriter.writeValueAsString(customer);
         } catch (Exception e) {
             log.error("Exception thrown", e);
         }

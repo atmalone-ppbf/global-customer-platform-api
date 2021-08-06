@@ -1,22 +1,16 @@
 package com.flutter.gcpapi.service;
 
-import com.flutter.gcpapi.model.*;
+import com.flutter.gcpapi.model.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
-import org.apache.flink.api.common.state.MapState;
-import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
-import org.apache.flink.api.common.typeinfo.TypeHint;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.queryablestate.client.QueryableStateClient;
 
 import java.net.UnknownHostException;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
+import static com.flutter.gcpapi.GcpApiApplication.JOB_ID;
 
 @Slf4j
 public class CustomerService {
@@ -36,7 +30,7 @@ public class CustomerService {
 
     public Customer queryCustomerState(String key) throws Exception {
         return client.getKvState(
-                JobID.fromHexString("e3a6108d99a55dee02d65322d8c0ac42"),
+                JobID.fromHexString(JOB_ID),
                 "customerState",
                 key,
                 BasicTypeInfo.STRING_TYPE_INFO,

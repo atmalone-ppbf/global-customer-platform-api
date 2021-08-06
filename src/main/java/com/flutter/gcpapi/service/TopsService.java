@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static com.flutter.gcpapi.GcpApiApplication.JOB_ID;
+
 @Slf4j
 public class TopsService {
 
@@ -36,7 +38,7 @@ public class TopsService {
 
     public Map<String,List<Customer>> queryTopsState() throws Exception {
         MapState<String, List<Customer>> mapState =  client.getKvState(
-                JobID.fromHexString("e3a6108d99a55dee02d65322d8c0ac42"),
+                JobID.fromHexString(JOB_ID),
                 "QueryableNicknamedAccountState",
                 "TODO:TOPSKEY",
                 BasicTypeInfo.STRING_TYPE_INFO,

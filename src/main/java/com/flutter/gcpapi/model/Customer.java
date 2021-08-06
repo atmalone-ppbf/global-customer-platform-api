@@ -3,17 +3,14 @@ package com.flutter.gcpapi.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.flink.api.java.tuple.Tuple2;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder(toBuilder = true)
+@AllArgsConstructor
 public class Customer {
     String accountId;
     String brand;

@@ -1,13 +1,11 @@
 package com.flutter.gcpapi.service;
 
-import com.flutter.gcpapi.model.Customer;
 import com.flutter.gcpapi.model.NicknamedAccount;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
-import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.queryablestate.client.QueryableStateClient;
@@ -16,6 +14,8 @@ import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static com.flutter.gcpapi.GcpApiApplication.JOB_ID;
 
 @Slf4j
 public class NicknameService {
@@ -30,13 +30,13 @@ public class NicknameService {
 
     private NicknameService(Integer port) throws UnknownHostException {
         log.debug("Initiating connecting with localhost:{}", port);
-        this.client = new QueryableStateClient("localhost",port);
+        this.client = new QueryableStateClient("localhost", port);
         client.setExecutionConfig(new ExecutionConfig());
     }
 
-    public Map<String,NicknamedAccount> queryNicknamedAccountState(String key) throws Exception {
-        MapState<String, NicknamedAccount> mapState =  client.getKvState(
-                JobID.fromHexString("e3a6108d99a55dee02d65322d8c0ac42"),
+    public Map<String, NicknamedAccount> queryNicknamedAccountState(String key) throws Exception {
+        MapState<String, NicknamedAccount> mapState = client.getKvState(
+                JobID.fromHexString(JOB_ID),
                 "nicknamedAccountState",
                 key,
                 BasicTypeInfo.STRING_TYPE_INFO,
