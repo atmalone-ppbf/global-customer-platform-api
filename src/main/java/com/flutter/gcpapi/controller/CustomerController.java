@@ -42,10 +42,10 @@ public class CustomerController {
             //Create the key
             if (NumberUtils.isCreatable(accountId)) {
                 Double accountIdFromSearch = Double.valueOf(accountId);
-                key = brand + accountIdFromSearch;
+                key = brand + "/" + accountIdFromSearch;
             } else {
                 isNicknameSearch = true;
-                key = brand + accountId;
+                key = brand + "/" + accountId;
             }
 
             if (isNicknameSearch) {

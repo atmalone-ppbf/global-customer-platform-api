@@ -34,7 +34,7 @@ public class NicknameService {
 
     public Map<String,NicknamedAccount> queryNicknamedAccountState(String key) throws Exception {
         MapState<String, NicknamedAccount> mapState =  client.getKvState(
-                JobID.fromHexString("6a0add459864f470954f87f7b0d73a2e"),
+                JobID.fromHexString("a2ee0cc71e77979c1cca2e8c09202bcd"),
                 "QueryableNicknamedAccountState",
                 key,
                 BasicTypeInfo.STRING_TYPE_INFO,
